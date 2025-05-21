@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ثبت کار جدید</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>📝 ثبت کار جدید</h1>
+    </div>
+    <form id="taskForm" class="task-form" style="max-width:600px;">
+        <label for="date">تاریخ و زمان (شمسی):</label>
+        <div style="display: flex; gap: 8px; align-items: center; justify-content: center;">
+            <input type="text" id="date" name="date" placeholder="مثال: 1403/02/20 - 14:30" required style="flex: 1; text-align: center;">
+            <button type="button" id="todayBtn" style="padding: 6px 14px; border-radius: 8px; border: none; background: #007aff; color: #fff; cursor: pointer; min-width: 70px;">امروز</button>
+        </div>
+        <!-- حذف بخش مسئولین -->
+        <label for="status">وضعیت:</label>
+        <select id="status" name="status" required>
+            <option value="">انتخاب کنید</option>
+            <option value="Patch Panel">Patch Panel</option>
+            <option value="FAT">FAT</option>
+            <option value="Closures">Closures</option>
+        </select>
+        <div id="fat-number-container" style="display:none;">
+            <label for="fat-number">عدد FAT:</label>
+            <input type="text" id="fat-number" name="fat-number" placeholder="مثال: 134-45">
+        </div>
+        <label for="desc">توضیحات:</label>
+        <textarea id="desc" name="desc" rows="3" placeholder="توضیحات کار را وارد کنید..." required></textarea>
+        <button type="submit" class="new-task-btn">ثبت کار</button>
+    </form>
+    <script src="../js/new-task.js"></script>
+    <script>
+    // تابع تبدیل تاریخ میلادی به شمسی
+    function toJalali(gy, gm, gd) {
+        var g_d_m, jy, jm, jd, gy2, days;
+        g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
+        gy2 = (gm > 2)? (gy + 1) : gy;
+        days = 355666 + (365 * gy) + parseInt((gy2 + 3) / 4, 10)
+            - parseInt((gy2 + 99) / 100, 10)
+            + parseInt((gy2 + 399) / 400, 10)
+            + gd + g_d_m[gm - 1];
+        jy = -1595 + (33 * parseInt(days / 12053, 10));
+        days %= 12053;
+        jy += 4 * parseInt(days / 1461, 10);
+        days %= 1461;
+        if (days > 365) {
+            jy += parseInt((days - 1) / 365, 10);
+            days = (days - 1) % 365;
+        }
+        jm = (days < 186) ? 1 + parseInt(days / 31, 10) : 7 + parseInt((days - 186) / 30, 10);
+        jd = 1 + ((days < 186) ? (days % 31) : ((days - 186) % 30));
+        return [jy, jm, jd];
+    }
+
+    document.getElementById('todayBtn').addEventListener('click', function() {
+        const now = new Date();
+        const [jy, jm, jd] = toJalali(now.getFullYear(), now.getMonth() + 1, now.getDate());
+        const hour = now.getHours().toString().padStart(2, '0');
+        const min = now.getMinutes().toString().padStart(2, '0');
+        const jalaliDate = jy + '/' + jm.toString().padStart(2, '0') + '/' + jd.toString().padStart(2, '0');
+        document.getElementById('date').value = jalaliDate + ' - ' + hour + ':' + min;
+    });
+
+    // نمایش چت‌باکس عددی فقط برای FAT
+    document.getElementById('status').addEventListener('change', function() {
+        if (this.value === "FAT") {
+            document.getElementById('fat-number-container').style.display = "block";
+        } else {
+            document.getElementById('fat-number-container').style.display = "none";
+            document.getElementById('fat-number').value = "";
+        }
+    });
+    </script>
+</body>
+</html>

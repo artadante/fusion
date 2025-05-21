@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ورود</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #f5f5f5;
+        }
+        .task-form {
+            max-width: 400px;
+            margin: auto;
+            padding: 32px 24px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+    </style>
+</head>
+<body>
+    <form id="loginForm" class="task-form">
+        <h2 style="text-align:center;">ورود به سامانه</h2>
+        <label for="username">نام کاربری:</label>
+        <select id="username" required>
+            <option value="">انتخاب کنید</option>
+            <option value="آرتا">arta</option>
+            <option value="راستین">rastin</option>
+            <option value="آرمین">armin</option>
+        </select>
+        <button type="submit" class="new-task-btn" style="width:100%;margin-top:18px;">ورود</button>
+    </form>
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const username = document.getElementById('username').value;
+        if (username) {
+            localStorage.setItem('currentUser', username);
+            window.location.href = "../index.html";
+        }
+    });
+    </script>
+</body>
+</html>

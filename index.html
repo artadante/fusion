@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه خالی ریسپانسیو</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>📝 سیستم ثبت کارهای روزانه</h1>
+        <h2>لیست کارها</h2>
+    </div>
+    <div class="table-header">
+        <button class="new-task-btn" onclick="window.location.href='html/new-task.html'">کار جدید</button>
+    </div>
+    <div class="table-container">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>زمان</th>
+                    <th>مسئولین</th>
+                    <th>وضعیت</th>
+                    <th>توضیحات</th>
+                    <th>حذف</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ردیف‌ها به صورت داینامیک اضافه می‌شوند -->
+            </tbody>
+        </table>
+    </div>
+    <!-- صفحه خالی -->
+    <script src="js/main.js"></script>
+    <script>
+        if (!localStorage.getItem('currentUser')) {
+            window.location.href = "html/login.html";
+        }
+        </script>
+</body>
+</html>
